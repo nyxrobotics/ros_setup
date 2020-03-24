@@ -23,35 +23,7 @@ kernel:4.15.0-64-generic
 
 1. clang-formatとclang-tidyを使用してコード整形[3]（.clang-format[4], .clang-tidy[5]）
 
-	- 必要なパッケージをインストール
-	
-        sudo apt install clang-8 clang-format-8 clang-tidy-8 clang-tools-8
-
-    - このリポジトリの、clangフォルダ内(cmake, .clang-format, .clang-tidy)をCMakeLists.txtと同階層にコピー
-    - CMakeLists.txtの最初に以下を追記
-
-			#cmake_minimum_required(VERSION 2.8.3)
-			#cmake_policy(SET CMP0054 NEW)
-			#project(何かしらのROSパッケージ名)
-			# ここから下
-			set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
-			option(ENABLE_CLANG_BUILD "Enable Clang Build Tools" ON)
-			option(ENABLE_CLANG_FORMAT_FIX "Perform fixes for Clang-Format" OFF)
-			option(ENABLE_CLANG_TIDY_FIX "Perform fixes for Clang-Tidy" OFF)
-			include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ClangFormatMacros.cmake)
-			if(ENABLE_CLANG_BUILD)
-				enable_clang_build()
-			endif()
-			if(ENABLE_CLANG_FORMAT_FIX)
-				clang_format_fix()
-			endif()
-			if(ENABLE_CLANG_TIDY_FIX)
-				clang_tidy_fix()
-			endif()
-			# ここまで
-
-	- 上記のファイルにて、ENABLE_CLANG_FORMAT_FIXおよびENABLE_CLANG_TIDY_FIXをONにしてcatkin btすると整形される
-
+	- [catkin_clang_format](https://github.com/nyxrobotics/catkin_clang_format)を導入する
 	- 以下補足
 	    - clang : warningやerrorが少し見やすいコンパイラ。速さはgccと大差なし（clangの方が少し早いかも）
 	    - clang-format : インデント・改行を修正する。
